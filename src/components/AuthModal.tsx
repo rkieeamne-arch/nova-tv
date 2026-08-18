@@ -243,101 +243,6 @@ create policy "Users can update their own profile"
         </div>
 
         <div className="overflow-y-auto flex-1">
-          {/* Supabase Environment Notice (if missing) */}
-          {!isSupabaseConfigured && (
-            <div className="m-4 p-4 bg-amber-950/40 border border-amber-500/30 rounded-2xl text-amber-200 text-xs leading-relaxed space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
-                  <Database className="w-4 h-4 shrink-0" />
-                  <span>ربط مشروع Supabase الخاص بك</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowKeyInput(!showKeyInput)}
-                  className="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
-                >
-                  <KeyRound className="w-3.5 h-3.5" />
-                  <span>{showKeyInput ? 'إخفاء الحقول' : 'إدخال المفاتيح هنا مباشرة'}</span>
-                </button>
-              </div>
-
-              {!showKeyInput ? (
-                <>
-                  <p className="font-medium text-amber-300">
-                    💡 يمكنك تسجيل الدخول أو إنشاء حساب الآن بشكل طبيعي وسنقوم بحفظ بياناتك محلياً بشكل فوري (دون الحاجة لـ Supabase!) أو اضغط هنا للدخول كضيف في ثوانٍ:
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-1 items-center justify-between">
-                    <button
-                      type="button"
-                      onClick={handleGuestBypass}
-                      className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-black font-black rounded-xl text-xs flex items-center gap-2 transition-all hover:scale-105 shadow-lg shadow-emerald-500/20 cursor-pointer"
-                    >
-                      <Sparkles className="w-4 h-4 text-black animate-pulse" />
-                      <span>تسجيل دخول فوري كضيف (بدون Supabase) 🚀</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={copySqlCode}
-                      className="px-2.5 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-colors cursor-pointer border border-amber-500/20"
-                    >
-                      {copiedSql ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                      <span>{copiedSql ? 'تم نسخ كود SQL!' : 'نسخ كود SQL للجداول'}</span>
-                    </button>
-                  </div>
-
-                  <div className="pt-2 border-t border-amber-500/10 space-y-1">
-                    <p className="text-[10px] text-neutral-400">
-                      إذا أردت ربط قاعدة البيانات السحابية الحقيقية الخاصة بك لاحقاً، أضف هذه المتغيرات لملف <code className="bg-black/50 px-1 rounded font-mono text-white">.env</code>:
-                    </p>
-                    <div className="bg-[#05060a] p-2 rounded-xl border border-white/5 font-mono text-[10px] text-cyan-400 select-all dir-ltr text-left overflow-x-auto">
-                      VITE_SUPABASE_URL=https://your-project.supabase.co<br />
-                      VITE_SUPABASE_ANON_KEY=your-anon-key
-                    </div>
-                  </div>
-                </>
-              ) : (
-                <form onSubmit={handleSaveKeys} className="space-y-2.5 pt-2 border-t border-amber-500/20">
-                  <div>
-                    <label className="block text-[11px] font-bold text-amber-300 mb-1">
-                      رابط المشروع (SUPABASE_URL):
-                    </label>
-                    <input
-                      type="url"
-                      value={customUrl}
-                      onChange={(e) => setCustomUrl(e.target.value)}
-                      placeholder="https://xyz.supabase.co"
-                      className="w-full bg-black/60 border border-amber-500/40 rounded-xl p-2.5 text-xs text-white font-mono dir-ltr text-left focus:outline-none focus:border-amber-400"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-bold text-amber-300 mb-1">
-                      المفتاح المجهول (SUPABASE_ANON_KEY):
-                    </label>
-                    <input
-                      type="text"
-                      value={customKey}
-                      onChange={(e) => setCustomKey(e.target.value)}
-                      placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-                      className="w-full bg-black/60 border border-amber-500/40 rounded-xl p-2.5 text-xs text-white font-mono dir-ltr text-left focus:outline-none focus:border-amber-400"
-                      required
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-xl text-xs transition-colors cursor-pointer flex items-center justify-center gap-1.5 shadow-md"
-                  >
-                    <Save className="w-4 h-4" />
-                    <span>حفظ المفاتيح وتحديث الاتصال</span>
-                  </button>
-                </form>
-              )}
-            </div>
-          )}
-
           {/* Tab Selection */}
           <div className="p-4 pb-0">
             <div className="grid grid-cols-2 bg-[#121420] p-1 rounded-2xl border border-white/5">
@@ -514,6 +419,27 @@ create policy "Users can update their own profile"
                   <span>إنشاء الحساب الآن</span>
                 </>
               )}
+            </button>
+
+            {/* Subtle Divider */}
+            <div className="relative my-4">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-white/5" />
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-[#0d0f17] px-2.5 text-neutral-500">أو تصفح بدون حساب</span>
+              </div>
+            </div>
+
+            {/* Guest Bypass Button */}
+            <button
+              type="button"
+              onClick={handleGuestBypass}
+              disabled={isLoading}
+              className="w-full py-3 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 border border-white/10 hover:border-white/20"
+            >
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>الدخول السريع كضيف (حساب تجريبي) 🚀</span>
             </button>
           </form>
         </div>
