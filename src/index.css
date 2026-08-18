@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* =========================================================================
+   THEME COLOR DEFINITIONS (CSS CUSTOM PROPERTIES)
+   ========================================================================= */
+:root,
+html[data-theme="red"],
+body[data-theme="red"],
+[data-theme="red"] {
+  --color-primary: #dc2626;
+  --color-primary-hover: #b91c1c;
+  --color-primary-light: #ef4444;
+  --color-primary-rgb: 220, 38, 38;
+  --color-primary-dark: #7f1d1d;
+  --color-glow: rgba(220, 38, 38, 0.45);
+  --color-accent-subtle: rgba(220, 38, 38, 0.15);
+  --color-border-subtle: rgba(220, 38, 38, 0.35);
+  --color-gradient-from: #dc2626;
+  --color-gradient-to: #991b1b;
+}
+
+html[data-theme="blue"],
+body[data-theme="blue"],
+[data-theme="blue"] {
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-light: #3b82f6;
+  --color-primary-rgb: 37, 99, 235;
+  --color-primary-dark: #1e3a8a;
+  --color-glow: rgba(37, 99, 235, 0.45);
+  --color-accent-subtle: rgba(37, 99, 235, 0.15);
+  --color-border-subtle: rgba(37, 99, 235, 0.35);
+  --color-gradient-from: #2563eb;
+  --color-gradient-to: #1e40af;
+}
+
+html[data-theme="green"],
+body[data-theme="green"],
+[data-theme="green"] {
+  --color-primary: #059669;
+  --color-primary-hover: #047857;
+  --color-primary-light: #10b981;
+  --color-primary-rgb: 5, 150, 105;
+  --color-primary-dark: #064e3b;
+  --color-glow: rgba(5, 150, 105, 0.45);
+  --color-accent-subtle: rgba(5, 150, 105, 0.15);
+  --color-border-subtle: rgba(5, 150, 105, 0.35);
+  --color-gradient-from: #059669;
+  --color-gradient-to: #065f46;
+}
+
+html[data-theme="amber"],
+body[data-theme="amber"],
+[data-theme="amber"] {
+  --color-primary: #d97706;
+  --color-primary-hover: #b45309;
+  --color-primary-light: #f59e0b;
+  --color-primary-rgb: 217, 119, 6;
+  --color-primary-dark: #78350f;
+  --color-glow: rgba(217, 119, 6, 0.45);
+  --color-accent-subtle: rgba(217, 119, 6, 0.15);
+  --color-border-subtle: rgba(217, 119, 6, 0.35);
+  --color-gradient-from: #d97706;
+  --color-gradient-to: #92400e;
+}
+
+html[data-theme="purple"],
+body[data-theme="purple"],
+[data-theme="purple"] {
+  --color-primary: #9333ea;
+  --color-primary-hover: #7e22ce;
+  --color-primary-light: #a855f7;
+  --color-primary-rgb: 147, 51, 234;
+  --color-primary-dark: #581c87;
+  --color-glow: rgba(147, 51, 234, 0.45);
+  --color-accent-subtle: rgba(147, 51, 234, 0.15);
+  --color-border-subtle: rgba(147, 51, 234, 0.35);
+  --color-gradient-from: #9333ea;
+  --color-gradient-to: #6b21a8;
+}
+
+/* =========================================================================
+   DYNAMIC ARABIC FONTS
+   ========================================================================= */
+:root {
+  --font-active: 'Cairo', system-ui, -apple-system, sans-serif;
+}
+
+html[data-font="cairo"], body[data-font="cairo"], [data-font="cairo"] {
+  --font-active: 'Cairo', system-ui, -apple-system, sans-serif;
+}
+
+html[data-font="tajawal"], body[data-font="tajawal"], [data-font="tajawal"] {
+  --font-active: 'Tajawal', system-ui, -apple-system, sans-serif;
+}
+
+html[data-font="almarai"], body[data-font="almarai"], [data-font="almarai"] {
+  --font-active: 'Almarai', system-ui, -apple-system, sans-serif;
+}
+
+html[data-font="readex"], body[data-font="readex"], [data-font="readex"] {
+  --font-active: 'Readex Pro', system-ui, -apple-system, sans-serif;
+}
+
+html, body, #root, #nova-tv-root, button, input, select, textarea {
+  font-family: var(--font-active) !important;
+}
+
+.font-cairo {
+  font-family: 'Cairo', system-ui, -apple-system, sans-serif !important;
+}
+
+.font-tajawal {
+  font-family: 'Tajawal', system-ui, -apple-system, sans-serif !important;
+}
+
+.font-almarai {
+  font-family: 'Almarai', system-ui, -apple-system, sans-serif !important;
+}
+
+.font-readex {
+  font-family: 'Readex Pro', system-ui, -apple-system, sans-serif !important;
+}
+
+/* =========================================================================
+   DYNAMIC THEME UTILITIES
+   ========================================================================= */
+.theme-btn-primary {
+  background-color: var(--color-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px var(--color-glow) !important;
+}
+
+.theme-btn-primary:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+
+.theme-btn-gradient {
+  background: linear-gradient(135deg, var(--color-gradient-from), var(--color-gradient-to)) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px var(--color-glow) !important;
+}
+
+.theme-text-primary {
+  color: var(--color-primary) !important;
+}
+
+.theme-text-light {
+  color: var(--color-primary-light) !important;
+}
+
+.theme-border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+.theme-border-subtle {
+  border-color: var(--color-border-subtle) !important;
+}
+
+.theme-bg-subtle {
+  background-color: var(--color-accent-subtle) !important;
+}
+
+.theme-glow {
+  box-shadow: 0 0 25px -5px var(--color-glow) !important;
+}
+
+.theme-glow-hover:hover {
+  box-shadow: 0 0 25px -5px var(--color-glow) !important;
+}
+
+.theme-active-tab {
+  background: linear-gradient(to left, rgba(var(--color-primary-rgb), 0.25), transparent) !important;
+  color: #ffffff !important;
+  border-right: 3px solid var(--color-primary) !important;
+}
+
+.theme-badge {
+  background-color: rgba(var(--color-primary-rgb), 0.15) !important;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.4) !important;
+  color: var(--color-primary-light) !important;
+}
+
+/* Custom Cinema Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #232738;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

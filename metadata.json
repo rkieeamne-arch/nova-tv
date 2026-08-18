@@ -1,0 +1,6 @@
+{
+  "name": "NOVA TV",
+  "description": "منصة وتطبيق سينمائي عصري لأفلام الرعب والأفلام العامة متوافق مع الهاتف والكمبيوتر مع المفضلة وسجل المشاهدة والإعدادات",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
