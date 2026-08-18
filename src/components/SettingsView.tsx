@@ -203,6 +203,12 @@ export function SettingsView({
     } catch {
       // Ignore if offline
     }
+    
+    // Clear local guest session
+    localStorage.removeItem('nova_user_email');
+    localStorage.removeItem('nova_user_username');
+    localStorage.removeItem('nova_user_avatar');
+
     onUpdateUser({
       id: '',
       name: 'زائر',

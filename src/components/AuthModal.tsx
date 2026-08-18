@@ -86,6 +86,26 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'login' }:
     }
   };
 
+  const handleGuestBypass = () => {
+    setIsLoading(true);
+    setErrorMessage(null);
+    setSuccessMessage('تم تسجيل الدخول كضيف (حساب تجريبي محلي) بنجاح! 🎉');
+    
+    const guestEmail = 'guest@novatv.app';
+    const guestName = 'مستكشف نوفا';
+    const guestAvatar = PRESET_AVATARS[0].url;
+
+    localStorage.setItem('nova_user_email', guestEmail);
+    localStorage.setItem('nova_user_username', guestName);
+    localStorage.setItem('nova_user_avatar', guestAvatar);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      onSuccess(guestEmail, guestName, guestAvatar);
+      onClose();
+    }, 1000);
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
@@ -110,6 +130,23 @@ export function AuthModal({ isOpen, onClose, onSuccess, initialMode = 'login' }:
     setIsLoading(true);
 
     try {
+      if (!isSupabaseConfigured) {
+        // Local database fallback
+        const finalUsername = mode === 'signup' ? username.trim() : (email.split('@')[0] || 'مستكشف نوفا');
+        const finalAvatar = avatar;
+        
+        localStorage.setItem('nova_user_email', email.trim());
+        localStorage.setItem('nova_user_username', finalUsername);
+        localStorage.setItem('nova_user_avatar', finalAvatar);
+        
+        setSuccessMessage('تم الدخول بنجاح عبر الحساب المحلي التجريبي!');
+        setTimeout(() => {
+          onSuccess(email.trim(), finalUsername, finalAvatar);
+          onClose();
+        }, 1000);
+        return;
+      }
+
       if (mode === 'signup') {
         const result = await supabaseSignUp(email.trim(), password, username.trim(), avatar);
         setSuccessMessage('تم إنشاء الحساب بنجاح في Supabase!');
@@ -226,23 +263,37 @@ create policy "Users can update their own profile"
 
               {!showKeyInput ? (
                 <>
-                  <p>
-                    أضف المتغيرات التالية إلى ملف <code className="bg-black/50 px-1.5 py-0.5 rounded font-mono text-white">.env</code> أو انقر "إدخال المفاتيح هنا مباشرة":
+                  <p className="font-medium text-amber-300">
+                    💡 يمكنك تسجيل الدخول أو إنشاء حساب الآن بشكل طبيعي وسنقوم بحفظ بياناتك محلياً بشكل فوري (دون الحاجة لـ Supabase!) أو اضغط هنا للدخول كضيف في ثوانٍ:
                   </p>
-                  <div className="bg-[#05060a] p-2.5 rounded-xl border border-white/10 font-mono text-[11px] text-cyan-300 select-all dir-ltr text-left overflow-x-auto">
-                    VITE_SUPABASE_URL=https://your-project.supabase.co<br />
-                    VITE_SUPABASE_ANON_KEY=your-anon-key
-                  </div>
-                  <div className="flex items-center justify-between pt-1">
-                    <span className="text-[11px] text-neutral-300">أو نسخ كود SQL لإنشاء جدول Profiles والـ RLS:</span>
+                  <div className="flex flex-wrap gap-2 pt-1 items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={handleGuestBypass}
+                      className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-black font-black rounded-xl text-xs flex items-center gap-2 transition-all hover:scale-105 shadow-lg shadow-emerald-500/20 cursor-pointer"
+                    >
+                      <Sparkles className="w-4 h-4 text-black animate-pulse" />
+                      <span>تسجيل دخول فوري كضيف (بدون Supabase) 🚀</span>
+                    </button>
+
                     <button
                       type="button"
                       onClick={copySqlCode}
-                      className="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-lg text-[11px] font-bold flex items-center gap-1 transition-colors cursor-pointer"
+                      className="px-2.5 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 rounded-xl text-[11px] font-bold flex items-center gap-1 transition-colors cursor-pointer border border-amber-500/20"
                     >
                       {copiedSql ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                      <span>{copiedSql ? 'تم النسخ!' : 'نسخ كود SQL'}</span>
+                      <span>{copiedSql ? 'تم نسخ كود SQL!' : 'نسخ كود SQL للجداول'}</span>
                     </button>
+                  </div>
+
+                  <div className="pt-2 border-t border-amber-500/10 space-y-1">
+                    <p className="text-[10px] text-neutral-400">
+                      إذا أردت ربط قاعدة البيانات السحابية الحقيقية الخاصة بك لاحقاً، أضف هذه المتغيرات لملف <code className="bg-black/50 px-1 rounded font-mono text-white">.env</code>:
+                    </p>
+                    <div className="bg-[#05060a] p-2 rounded-xl border border-white/5 font-mono text-[10px] text-cyan-400 select-all dir-ltr text-left overflow-x-auto">
+                      VITE_SUPABASE_URL=https://your-project.supabase.co<br />
+                      VITE_SUPABASE_ANON_KEY=your-anon-key
+                    </div>
                   </div>
                 </>
               ) : (

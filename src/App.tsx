@@ -174,7 +174,23 @@ export default function App() {
       }
     }
 
-    if (!supabase) return;
+    if (!supabase) {
+      // Load local guest/trial session if present
+      const localEmail = localStorage.getItem('nova_user_email');
+      const localUsername = localStorage.getItem('nova_user_username');
+      const localAvatar = localStorage.getItem('nova_user_avatar');
+      if (localEmail && localUsername && localAvatar) {
+        setUser((prev) => ({
+          ...prev,
+          id: 'local_guest',
+          email: localEmail,
+          name: localUsername,
+          avatar: localAvatar,
+          isLoggedIn: true,
+        }));
+      }
+      return;
+    }
 
     // Load initial session on startup
     supabase.auth.getSession().then(({ data: { session } }) => {
